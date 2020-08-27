@@ -1,0 +1,8 @@
+input {
+  background-color: #f5f5f5;
+}
+
+form input {
+  border: none;
+  text-align: center;
+}
