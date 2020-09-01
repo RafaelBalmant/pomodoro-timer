@@ -1,4 +1,18 @@
-input {
+div {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  width: 30vw;
+  margin: auto;
+}
+
+div input {
   border: none;
   text-align: center;
+  margin: 10px;
+  font-size: 40px;
+}
+
+div button {
+  margin: 10px;
 }

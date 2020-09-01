@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import { TimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import subSeconds from "date-fns/subSeconds";
-import getSeconds from "date-fns/getSeconds";
-import getMinutes from "date-fns/getMinutes";
 
 import "./styles.css";
 
 const Timer = () => {
-  const [counter, setCounter] = useState(new Date(2020, 0, 0, 0, 0, 5));
+  const [counter, setCounter] = useState(4);
   const [hasStarted, setHasStarted] = useState(false);
 
   React.useEffect(() => {
-    hasStarted &&
-      (getMinutes(counter) > 0 || getSeconds(counter) > 0) &&
-      setTimeout(() => setCounter(subSeconds(counter, 1)), 1000);
+    if (counter <= 0) {
+      setHasStarted(false);
+    } else {
+      hasStarted &&
+        counter > 0 &&
+        setTimeout(() => {
+          setCounter((counter - 0.01).toFixed(2));
+        }, 10);
+      if (counter === 0) {
+        setHasStarted(!hasStarted);
+      }
+    }
   }, [counter, hasStarted]);
 
   function toggleHasStarted() {
@@ -24,16 +28,11 @@ const Timer = () => {
 
   return (
     <>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <TimePicker
-          ampm={false}
-          openTo="minutes"
-          views={["minutes", "seconds"]}
-          format="mm:ss"
-          value={counter}
-          onChange={(e) => setCounter(e)}
-        />
-      </MuiPickersUtilsProvider>
+      <input
+        value={Math.ceil(counter)}
+        onChange={(e) => setCounter(e.target.value)}
+      ></input>
+
       <Button
         variant="contained"
         color={hasStarted ? "secondary" : "primary"}
